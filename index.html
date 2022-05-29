@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hello, JavaScript</title>
+  <title>Quiz Game</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/themes/prism-okaidia.min.css" integrity="sha512-mIs9kKbaw6JZFfSuo+MovjU+Ntggfoj8RwAmJbVXQ5mkAX5LlgETQEweFPI18humSPHymTb5iikEOKWF7I8ncQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
       :root {
@@ -23,7 +23,7 @@
         line-height: 1.5;
         font-family: Arial, Helvetica, sans-serif;
       }
-      h1, h2 {
+      h1, h2, h3 {
         text-align: center;
         margin: 48px 0;
         letter-spacing: 1.5px;
@@ -49,76 +49,72 @@
       span.mono {
         font-family: 'Courier New', Courier, monospace;
       }
-      a {
-        color: hsl(15, 72%, 75%);
-      }
-      a:visited {
-        color: hsl(15, 72%, 70%);
-      }
-      ul > li, ol > li {
-        line-height: 2;
-      }
-      a.code-link {
-        text-decoration: none;
-        position: relative
-      }
-      a.code-link:after {
-        content: "";
-        position: absolute;
-        bottom: -10px;
-        border-bottom: hsl(15, 72%, 75%) 2px solid;
-        left: 0;
-        width: 100%;
-      }
     </style>
 </head>
 
 <body>
-  <h1>Hello JavaScript!</h1>
-  <button onclick="greet()" id="greet-btn">Greetings!</button>
-  <h2 id="instructions">Instructions</h2>
-  <p>In this assignment, you will create a simple function using JavaScript that will make some small talk with the user using <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/alert"><span class="mono">alert</span></a>, <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/confirm"><span class="mono">confirm</span></a>, and <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/prompt"><span class="mono">prompt</span></a> when the user clicks the "Greetings!" button above.</p>
-  <p>First, create a function named <span class="mono">greet</span>.</p>
-  <pre><code class="language-js">function greet() {}</code></pre>
-  <p>The button at the top of this page is already coded to run the <span class="mono">greet</span> function when clicked, so there is <u>no need to modify the HTML</u>. Here is the included code for the aforementioned button:</p>
-  <pre><code class="language-markup">&lt;button onclick="greet()">Greetings!&lt;/button></code></pre>
-  <p>After creating the <span class="mono">greet</span> function, inside the function, do the following:</p>
-  <ol>
-    <li>Use a <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/prompt"><span class="mono">prompt</span></a> to ask the user for her name.
-      <ul>
-        <li>The user should be prompted with the text "What is your name?"</li>
-      </ul>
-    </li>
-    <li>Use <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/alert"><span class="mono">alert</span></a> to greet the user with her name.
-      <ul>
-        <li>E.g. if the user entered "Sally", the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/alert"><span class="mono">alert</span></a> should display "Hello, Sally"</li>
-      </ul>
-    </li>
-    <li>Use another <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/prompt"><span class="mono">prompt</span></a> call to ask the user their age.
-      <ul>
-        <li>The user should be shown the text "How old are you?"</li>
-        <li>Use the <a href="https://www.freecodecamp.org/news/parseint-in-javascript-js-string-to-int-example/"><span class="mono">parseInt</span></a> method to convert the user's answer into a <span class="mono">number</span>.</li>
-      </ul>
-    </li>
-    <li>Use a <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/confirm"><span class="mono">confirm</span></a> to ask the user if she has had a birthday yet this year.</li>
-    <li>Use an alert to tell the user what year she was born in.
-      <ul>
-        <li>If the user has had a birthday this year, subtract their age from the current year.</li>
-        <li>If the user has not yet had a birthday this year, subtract their age plus one from the current year.</li>
-        <li>Use <a class="code-link" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getFullYear"><code class="language-js">new Date().getFullYear()</code></a> to get the current year.</li>
-      </ul>
-    </li>
-  </ol>
-  <h2>Testing</h2>
-  <p>This assignment includes pre-written automated tests that check the functionality of the <span class="mono">greet</span> function.</p>
-  <p>To run the automated tests, click the "Run Tests" button in the bottom right of the screen.</p>
-  <p>To close the test suite, click "Close Tests" in the bottom right of the screen.</p>
-  <p>In order to receive full-credit for this assignment, all of the automated tests must pass.</p>
+  <h1>Quiz Assignment!</h1>
+  <button onclick="runQuiz()" id="start-quiz">Start Quiz</button>
+  <h2>Instructions</h2>
+  <p>
+    For this assignment, you will need to create a quiz game using JavaScript. The quiz should begin when the user clicks the "Start Quiz" button above. The quiz should ask the user true/false questions and calculate and display the final score at the end of the quiz.
+  </p>
+  <p>
+    All of your work should be completed within the provided <span class="mono">index.js</span> file.
+  </p>
+  <p>
+    Make a global variable named <span class="mono">questionsArr</span> that will contain an array of question objects; this data structure will contain all of the question/answer information for your quiz. Make a function named <span class="mono">runQuiz</span> that will contain the code for your quiz (the "Start Quiz" button is already coded to run the <span class="mono">runQuiz</span> function).
+  </p>
+  <pre>
+    <code class="language-js">
+var questionsArr = []
+
+function runQuiz {}
+    </code>
+  </pre>
+  <p>
+    Inside of your <span class="mono">questionsArr</span> array, make an object for each question in your quiz. Your question objects should have two properties:
+    <ol>
+      <li>
+        <span class="mono">question</span> - This should be a <span class="mono">string</span> containing the question text.
+      </li>
+      <li>
+        <span class="mono">answer</span> - This should be a <span class="mono">boolean</span> containing the correct answer.
+      </li>
+    </ol>
+    here is an example of how your <span class="mono">questionsArr</span> array should look with a single question object:
+    <pre><code class="language-js">
+var questionsArr = [
+      {
+        question: 'JavaScript is the best language',
+        answer: true
+      }
+]
+    </code></pre>
+  </p>
+  <p>
+    The <span class="mono">runQuiz</span> function should then use a <span class="mono">for</span> loop to iterate over the <span class="mono">questionsArr</span> array and use the <span class="mono">question</span> and <span class="mono">answer</span> properties of each object in conjunction with the <span class="mono">confirm</span> method to ask the user questions and receive and compare answers.
+  </p>
+  <p>
+    After all questions are asked and answered, the quiz should calculate the percentage correct and then use the <span class="mono">alert</span> method to display that percentage to the user.
+  </p>
+  <h2>Tests</h2>
+  <p>
+    Automated tests are provided for this assignment. Your homework assignment should pass all automated tests when completed correctly.
+  </p>
+  <p>
+    To run the tests, click the "Run Tests" button in the bottom right of this page. To close tests, click the same button. Tests may be re-run using this button as many times as needed.
+  </p>
   <h2>Requirements for full credit</h2>
-  <p>To receive full credit for this assignment, your program MUST:
+  <p>
+    To receive full credit for this assignment, your quiz program MUST:
     <ul>
-      <li>Be implemented according to the above <a href="#instructions">instructions</a>.</li>
-      <li>Pass all automated tests</li>
+      <li>Use a function named <span class="mono">runQuiz</span> that uses a <span class="mono">for</span> loop to iterate over an array of objects stored in a variable named <span class="mono">questionsArr</span>.</li>
+      <li>Begin the quiz when the "start quiz" button is clicked.</li>
+      <li>Contain AT LEAST 5 questions.</li>
+      <li>Display the final score as a percentage of the total correctly answered questions.</li>
+      <li>Round final score percentage to a whole number. E.g. "67%" NOT "66.666%"</li>
+      <li>Pass all automated tests.</li>
       <li>Be deployed to GitHub Pages.</li>
     </ul>
   </p>

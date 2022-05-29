@@ -123,24 +123,15 @@ function runTests() {
   mocha.setup("bdd");
   const expect = chai.expect;
 
-  describe("Greeting Assignment", function () {
-    const runBtn = document.getElementById('greet-btn')
-    const userAge = 20
-    let greetFnSpy
+  describe("Quiz Assignment", function () {
+    let runQuizFn
     let alertStub
-    let promptStub
     let confirmStub
-    function stubPrompt(firstReturn, secondReturn) {
-      promptStub = sinon.stub(window, 'prompt')
-      promptStub.onFirstCall().returns('Sally')
-      promptStub.onSecondCall().returns('20')
-    }
     beforeEach(() => {
-      if (greet)
-        greetFnSpy = sinon.spy(window, 'greet')
+      if (runQuiz)
+        runQuizFn = sinon.spy(window, 'runQuiz')
       alertStub = sinon.stub(window, 'alert')
       confirmStub = sinon.stub(window, 'confirm').returns(true)
-      stubPrompt()
     })
     afterEach(() => {
       sinon.restore()
@@ -150,38 +141,87 @@ function runTests() {
       testBtn.disabled = false
     })
     describe('Setup', () => {
-      it('Clicking "Greetings" button should run "greet" function', () => {
-        runBtn.click()
-        expect(greetFnSpy.called).to.be.true
+      it('Should have start quiz button', function () {
+        const quizBtn = document.getElementById('start-quiz')
+        expect(quizBtn).to.not.be.null
+      })
+      it('runQuiz function should be declared properly', () => {
+        expect(runQuiz).to.exist
+        expect(typeof runQuiz).to.eq('function')
+      })
+      it('Quiz button should run quiz', function () {
+        const quizBtn = document.getElementById('start-quiz')
+        expect(quizBtn).to.not.be.null
+        quizBtn.click()
+        expect(runQuizFn.called).to.be.true
+      })
+      it('questionsArr should be declared and be an array', () => {
+        expect(questionsArr).to.exist
+        expect(Array.isArray(questionsArr)).to.be.true
+      })
+      it('questionsArr should contain only objects', () => {
+        expect(questionsArr).to.exist
+        expect(Array.isArray(questionsArr)).to.be.true
+        expect(questionsArr.length >= 1).to.be.true
+        questionsArr.every(question => expect(typeof question).to.eq('object'))
+      })
+      it('question objects should have question properties that are strings', () => {
+        expect(questionsArr).to.exist
+        expect(Array.isArray(questionsArr)).to.be.true
+        expect(questionsArr.length >= 1).to.be.true
+        questionsArr.every(question => {
+          expect(question).to.have.property('question')
+          expect(typeof question.question).to.eq('string')
+        })
+      })
+      it('question objects should have answer properties that are boolean', () => {
+        expect(questionsArr).to.exist
+        expect(Array.isArray(questionsArr)).to.be.true
+        expect(questionsArr.length >= 1).to.be.true
+        questionsArr.every(question => {
+          expect(question).to.have.property('answer')
+          expect(typeof question.answer).to.eq('boolean')
+        })
+      })
+      it('questionsArr should have at least five question objects', () => {
+        expect(questionsArr).to.exist
+        expect(Array.isArray(questionsArr)).to.be.true
+        expect(questionsArr.length >= 5).to.be.true
       })
     })
-    describe('greet function', () => {
-      it('should prompt user with "What is your name?"', () => {
-        runBtn.click()
-        expect(/what is your name[\?]{0,1}/gi.test(prompt.firstCall.args[0])).to.be.true
+    describe('Quiz behavior', () => {
+      it('should ask at least five questions', () => {
+        document.getElementById('start-quiz').click()
+        expect(confirmStub.callCount >= 5).to.be.true
       })
-      it('should alert "Hello, Name" after prompting user for name', () => {
-        runBtn.click()
-        expect(/what is your name[\?]{0,1}/gi.test(prompt.firstCall.args[0])).to.be.true
-        expect(/hello[\s,]{0,2}sally/gi.test(alertStub.firstCall.args[0])).to.be.true
+      it('last alert should contain score', () => {
+        document.getElementById('start-quiz').click()
+        expect(alertStub.called).to.be.true
+        expect(/\d{2,3}%/g.test(alertStub.lastCall.args[0])).to.be.true
       })
-      it('should use a prompt to ask the user "How old are you?"', () => {
-        runBtn.click()
-        expect(/how old are you[\?]{0,1}/gi.test(prompt.secondCall.args[0])).to.be.true
+      it('answering all questions correctly should score 100%', () => {
+        sinon
+        .stub(window, 'questionsArr')
+        .value(new Array(5).fill({ question: "", answer: true }))
+        document.getElementById('start-quiz').click()
+        expect(/100%/g.test(alertStub.lastCall.args[0])).to.be.true
       })
-      it('should use a confirm to ask user if his/her birthday has passed this year', () => {
-        runBtn.click()
-        expect(/birthday/gi.test(confirmStub.firstCall.args[0])).to.be.true
+      it('answering no questions correctly should score 0%', () => {
+        sinon
+          .stub(window, 'questionsArr')
+          .value(new Array(5).fill({ question: "", answer: false }))
+        document.getElementById('start-quiz').click()
+        expect(/0%/g.test(alertStub.lastCall.args[0])).to.be.true
       })
-      it("should alert user's birth year if user's birthday has passed this year", () => {
-        runBtn.click()
-        expect(alertStub.secondCall.args[0].includes(new Date().getFullYear() - userAge)).to.be.true
-      })
-      it("should alert user's birth year if user's birthday has NOT yet passed this year", () => {
-        confirmStub.restore()
-        sinon.stub(window, 'confirm').returns(false)
-        runBtn.click()
-        expect(alertStub.secondCall.args[0].includes(new Date().getFullYear() - userAge - 1)).to.be.true
+      it('should round score percentage to whole number', () => {
+        const stubbedQuestions = new Array(3).fill({ question: "", answer: true })
+        stubbedQuestions[2] = {question: "", answer: false}
+        sinon
+          .stub(window, 'questionsArr')
+          .value(stubbedQuestions)
+          document.getElementById('start-quiz').click()
+          console.log(alertStub.lastCall.args[0])
+        expect(/6[67]%/g.test(alertStub.lastCall.args[0])).to.be.true
       })
     })
   });
